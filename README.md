@@ -1,51 +1,35 @@
 # 🗃️ project.nvim
 
-**project.nvim** is an all in one neovim plugin written in lua that provides
+This is a fork of
+**project.nvim** neovim plugin written in lua that provides
 superior project management.
 
 ![Telescope Integration](https://user-images.githubusercontent.com/36672196/129409509-62340f10-4dd0-4c1a-9252-8bfedf2a9945.png)
 
+## Fork difference and reason
+
+This fork is focused on IDE-like working with projects approach.
+
+It's integrated with Session Manager to store all opened tabs and buffers for each project.
+
+More dependencies for a better overall user experience.
+
 ## ⚡ Requirements
 
-- Neovim >= 0.5.0
+- Neovim >= 0.8.0
+- [Neovim Session Manager](https://github.com/Shatur/neovim-session-manager)
+- [Telescope](https://github.com/nvim-telescope/telescope.nvim)
 
 ## ✨ Features
 
 - Automagically cd to project directory using nvim lsp
-  - Dependency free, does not rely on lspconfig
 - If no lsp then uses pattern matching to cd to root directory
 - Telescope integration `:Telescope projects`
   - Access your recently opened projects from telescope!
-  - Asynchronous file io so it will not slow down vim when reading the history
+  - Asynchronous file io, so it will not slow down neovim when reading the history
     file on startup.
-- Neovim Session Manager integration to create IDE-like project switching
-  - Set option `session_autoload = true` and `:Telescope projects` command will navigate you to chosen project's directory and your previously opened buffers will be restored. [Neovim Session Manager](https://github.com/Shatur/neovim-session-manager) need to be installed for this feature.
-- ~~Nvim-tree.lua support/integration~~
-  - Please add the following to your config instead:
-    ```vim
-    " Vim Script
-    lua << EOF
-    require("nvim-tree").setup({
-      sync_root_with_cwd = true,
-      respect_buf_cwd = true,
-      update_focused_file = {
-        enable = true,
-        update_root = true
-      },
-    })
-    EOF
-    ```
-    ```lua
-    -- lua
-    require("nvim-tree").setup({
-      sync_root_with_cwd = true,
-      respect_buf_cwd = true,
-      update_focused_file = {
-        enable = true,
-        update_root = true
-      },
-    })
-    ```
+- Neovim Session Manager integration to store sessions
+  - Install Neovim Session Manager and `:Telescope projects` command will navigate you to chosen project's directory and your previously opened buffers will be restored.
 
 ## 📦 Installation
 
@@ -55,7 +39,7 @@ Install the plugin with your preferred package manager:
 
 ```vim
 " Vim Script
-Plug "ahmedkhalf/project.nvim"
+Plug "coffebar/project.nvim"
 
 lua << EOF
   require("project_nvim").setup {
@@ -71,7 +55,7 @@ EOF
 ```lua
 -- Lua
 use {
-  "ahmedkhalf/project.nvim",
+  "coffebar/project.nvim",
   config = function()
     require("project_nvim").setup {
       -- your configuration comes here
@@ -92,27 +76,27 @@ use {
   -- the option to manually do so using `:ProjectRoot` command.
   manual_mode = false,
 
-  -- Methods of detecting the root directory. **"lsp"** uses the native neovim
-  -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+  -- Methods of detecting the root directory. "lsp" uses the native neovim
+  -- lsp, while "pattern" uses vim-rooter like glob pattern matching. Here
   -- order matters: if one is not detected, the other is used as fallback. You
-  -- can also delete or rearangne the detection methods.
+  -- can also delete or rearrange the detection methods.
   detection_methods = { "lsp", "pattern" },
 
-  -- All the patterns used to detect root dir, when **"pattern"** is in
+  -- All the patterns used to detect root dir, when "pattern" is in
   -- detection_methods
   patterns = { 
-		"!>home",
-		"!=tmp",
-		".git",
-		".idea",
-		".svn",
-		"PKGBUILD",
-		"composer.json",
-		"package.json",
-		"Makefile",
-		"README.md",
-		"Cargo.toml",
-	},
+    "!>home",
+    "!=tmp",
+    ".git",
+    ".idea",
+    ".svn",
+    "PKGBUILD",
+    "composer.json",
+    "package.json",
+    "Makefile",
+    "README.md",
+    "Cargo.toml",
+  },
 
   -- Table of lsp clients to ignore by name
   -- eg: { "efm", ... }
