@@ -55,7 +55,7 @@ Install the plugin with your preferred package manager:
 
 ```vim
 " Vim Script
-Plug 'ahmedkhalf/project.nvim'
+Plug "ahmedkhalf/project.nvim"
 
 lua << EOF
   require("project_nvim").setup {
@@ -121,7 +121,7 @@ use {
   -- * global (default)
   -- * tab
   -- * win
-  scope_chdir = 'global',
+  scope_chdir = "global",
 
   -- Path where project.nvim will store the project history for use in
   -- telescope

@@ -81,7 +81,7 @@ local function change_working_directory(prompt_bufnr, prompt)
     session_switch = false
   end
   if session_switch then
-	-- before switch project
+    -- before switch project
     -- save current session based on settings
     manager.autosave_session()
   end
@@ -161,40 +161,42 @@ end
 local function projects(opts)
   opts = opts or {}
 
-  pickers.new(opts, {
-    prompt_title = "Recent Projects",
-    finder = create_finder(),
-    previewer = false,
-    sorter = telescope_config.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, map)
-      map("n", "f", find_project_files)
-      map("n", "b", browse_project_files)
-      map("n", "d", delete_project)
-      map("n", "s", search_in_project_files)
-      map("n", "r", recent_project_files)
-      map("n", "w", change_working_directory)
+  pickers
+    .new(opts, {
+      prompt_title = "Recent Projects",
+      finder = create_finder(),
+      previewer = false,
+      sorter = telescope_config.generic_sorter(opts),
+      attach_mappings = function(prompt_bufnr, map)
+        map("n", "f", find_project_files)
+        map("n", "b", browse_project_files)
+        map("n", "d", delete_project)
+        map("n", "s", search_in_project_files)
+        map("n", "r", recent_project_files)
+        map("n", "w", change_working_directory)
 
-      map("i", "<c-f>", find_project_files)
-      map("i", "<c-b>", browse_project_files)
-      map("i", "<c-d>", delete_project)
-      map("i", "<c-s>", search_in_project_files)
-      map("i", "<c-r>", recent_project_files)
-      map("i", "<c-w>", change_working_directory)
+        map("i", "<c-f>", find_project_files)
+        map("i", "<c-b>", browse_project_files)
+        map("i", "<c-d>", delete_project)
+        map("i", "<c-s>", search_in_project_files)
+        map("i", "<c-r>", recent_project_files)
+        map("i", "<c-w>", change_working_directory)
 
-	  local on_project_selected
-	  if config.options.session_autoload and has_session_manager then
-		  on_project_selected = function()
-			  change_working_directory(prompt_bufnr, false)
-		  end
-	  else
-		  on_project_selected = function()
-			  find_project_files(prompt_bufnr)
-		  end
-	  end
-      actions.select_default:replace(on_project_selected)
-      return true
-    end,
-  }):find()
+        local on_project_selected
+        if config.options.session_autoload and has_session_manager then
+          on_project_selected = function()
+            change_working_directory(prompt_bufnr, false)
+          end
+        else
+          on_project_selected = function()
+            find_project_files(prompt_bufnr)
+          end
+        end
+        actions.select_default:replace(on_project_selected)
+        return true
+      end,
+    })
+    :find()
 end
 
 return telescope.register_extension({
