@@ -131,7 +131,6 @@ local function sanitize_projects()
   local real_tbl = {}
   for _, dir in ipairs(tbl) do
     if dir_exists(dir) then
-      dir = string.gsub(dir, vim.env.HOME, "~")
       table.insert(real_tbl, dir)
     end
   end

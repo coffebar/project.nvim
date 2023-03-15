@@ -43,7 +43,7 @@ local function create_finder()
   })
 
   local function make_display(entry)
-    return displayer({ entry.name, { entry.value, "Comment" } })
+    return displayer({ entry.name, { string.gsub(entry.value, vim.env.HOME, "~"), "Comment" } })
   end
 
   return finders.new_table({
