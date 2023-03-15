@@ -34,7 +34,12 @@ M.defaults = {
 
   -- Don't calculate root dir on specific directories
   -- Ex: { "~/.cargo/*", ... }
-  exclude_dirs = {},
+  exclude_dirs = {
+    "~/.local/*",
+    "~/.cache/*",
+    "~/.cargo/*",
+    "~/.node_modules/*",
+  },
 
   -- Show hidden files in telescope
   show_hidden = false,
