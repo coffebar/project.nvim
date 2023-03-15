@@ -128,10 +128,6 @@ use {
   -- telescope
   datapath = vim.fn.stdpath("data"),
 
-  -- If plugin 'Shatur/neovim-session-manager' is installed,
-  -- set this option to false if you don't want to open projects as sessions
-  -- as default action for ":Telescope projects"
-  session_autoload = true,
 }
 ```
 
@@ -198,12 +194,7 @@ require'telescope'.extensions.projects.projects{}
 
 | Normal mode | Insert mode | Action                     |
 | ----------- | ----------- | -------------------------- |
-| f           | \<c-f\>     | find\_project\_files       |
-| b           | \<c-b\>     | browse\_project\_files     |
 | d           | \<c-d\>     | delete\_project            |
-| s           | \<c-s\>     | search\_in\_project\_files |
-| r           | \<c-r\>     | recent\_project\_files     |
-| w           | \<c-w\>     | change\_working\_directory |
 
 ## API
 

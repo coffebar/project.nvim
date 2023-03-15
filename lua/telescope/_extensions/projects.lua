@@ -60,24 +60,20 @@ local function create_finder()
   })
 end
 
-local function change_working_directory(prompt_bufnr, prompt)
+local function change_working_directory(prompt_bufnr)
   local selected_entry = state.get_selected_entry()
   if selected_entry == nil then
     actions.close(prompt_bufnr)
     return
   end
   local project_path = selected_entry.value
-  if prompt == true then
-    actions._close(prompt_bufnr, true)
-  else
-    actions.close(prompt_bufnr)
-  end
+  actions.close(prompt_bufnr)
   -- session_manager will change session if session_autoload is enabled
-  local session_switch = config.options.session_autoload
-  if session_switch and not has_session_manager then
-    print("Warning: session autoloading is enabled, but neovim-session-manager in not installed!")
+  local session_switch = true
+  if not has_session_manager then
+    print("Warning: neovim-session-manager in not installed!")
     print("Consider to install 'Shatur/neovim-session-manager' or")
-    print("change project.nvim option ('session_autoload' = false) to remove this message")
+    print("delete 'project.nvim'")
     session_switch = false
   end
   if session_switch then
@@ -90,52 +86,6 @@ local function change_working_directory(prompt_bufnr, prompt)
     manager.load_current_dir_session(false)
   end
   return project_path, cd_successful
-end
-
-local function find_project_files(prompt_bufnr)
-  local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
-  local opt = {
-    cwd = project_path,
-    hidden = config.options.show_hidden,
-    mode = "insert",
-  }
-  if cd_successful then
-    builtin.find_files(opt)
-  end
-end
-
-local function browse_project_files(prompt_bufnr)
-  local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
-  local opt = {
-    cwd = project_path,
-    hidden = config.options.show_hidden,
-  }
-  if cd_successful then
-    builtin.file_browser(opt)
-  end
-end
-
-local function search_in_project_files(prompt_bufnr)
-  local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
-  local opt = {
-    cwd = project_path,
-    hidden = config.options.show_hidden,
-    mode = "insert",
-  }
-  if cd_successful then
-    builtin.live_grep(opt)
-  end
-end
-
-local function recent_project_files(prompt_bufnr)
-  local _, cd_successful = change_working_directory(prompt_bufnr, true)
-  local opt = {
-    cwd_only = true,
-    hidden = config.options.show_hidden,
-  }
-  if cd_successful then
-    builtin.oldfiles(opt)
-  end
 end
 
 local function delete_project(prompt_bufnr)
@@ -168,29 +118,11 @@ local function projects(opts)
       previewer = false,
       sorter = telescope_config.generic_sorter(opts),
       attach_mappings = function(prompt_bufnr, map)
-        map("n", "f", find_project_files)
-        map("n", "b", browse_project_files)
         map("n", "d", delete_project)
-        map("n", "s", search_in_project_files)
-        map("n", "r", recent_project_files)
-        map("n", "w", change_working_directory)
-
-        map("i", "<c-f>", find_project_files)
-        map("i", "<c-b>", browse_project_files)
         map("i", "<c-d>", delete_project)
-        map("i", "<c-s>", search_in_project_files)
-        map("i", "<c-r>", recent_project_files)
-        map("i", "<c-w>", change_working_directory)
 
-        local on_project_selected
-        if config.options.session_autoload and has_session_manager then
-          on_project_selected = function()
-            change_working_directory(prompt_bufnr, false)
-          end
-        else
-          on_project_selected = function()
-            find_project_files(prompt_bufnr)
-          end
+        local on_project_selected = function()
+          change_working_directory(prompt_bufnr)
         end
         actions.select_default:replace(on_project_selected)
         return true
