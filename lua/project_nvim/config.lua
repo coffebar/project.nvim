@@ -61,7 +61,7 @@ M.defaults = {
   -- If plugin 'Shatur/neovim-session-manager' is installed,
   -- set this option to true if you want to open projects as sessions
   -- as default action for ":Telescope projects"
-  session_autoload = false,
+  session_autoload = true,
 }
 
 ---@type ProjectOptions
