@@ -2,6 +2,7 @@ local config = require("project_nvim.config")
 local history = require("project_nvim.utils.history")
 local glob = require("project_nvim.utils.globtopattern")
 local path = require("project_nvim.utils.path")
+local has_session_manager, manager = pcall(require, "session_manager")
 local uv = vim.loop
 local M = {}
 
@@ -252,6 +253,10 @@ end
 function M.add_project_manually()
   local current_dir = vim.fn.expand("%:p:h", true)
   M.set_pwd(current_dir, "manual")
+  if has_session_manager then
+    -- save current session
+    manager.autosave_session()
+  end
 end
 
 function M.init()

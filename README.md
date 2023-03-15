@@ -66,6 +66,20 @@ use {
 }
 ```
 
+#### Add extension to telescope:
+
+```lua
+require('telescope').load_extension('projects')
+```
+
+## Commands
+
+Plugin will add these commands:
+
+- `Telescope projects` - select a project to open;
+- `AddProject` - manually save current project to list and save session for it;
+- `ProjectRoot` - set current dir as project root;
+
 ## ⚙️ Configuration
 
 **project.nvim** comes with the following defaults:
@@ -175,18 +189,6 @@ patterns = { "!.git/worktrees", "!=extras", "!^fixtures", "!build/env.sh" }
 
 List your exclusions before the patterns you do want.
 
-### Telescope Integration
-
-To enable telescope integration:
-```lua
-require('telescope').load_extension('projects')
-```
-
-#### Telescope Projects Picker
-To use the projects picker
-```lua
-require'telescope'.extensions.projects.projects{}
-```
 
 #### Telescope mappings
 
