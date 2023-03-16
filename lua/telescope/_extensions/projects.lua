@@ -68,20 +68,19 @@ local function change_working_directory(prompt_bufnr)
   actions.close(prompt_bufnr)
   -- session_manager will change session
   if not has_session_manager then
-    print("Warning: neovim-session-manager in not installed!")
-    print("Consider to install 'Shatur/neovim-session-manager' or")
-    print("delete 'project.nvim'")
+    vim.notify(
+      "Warning: neovim-session-manager in not installed!\r\n"
+        .. "Consider to install 'Shatur/neovim-session-manager' or \r\n"
+        .. "delete 'project.nvim'"
+    )
   end
   if has_session_manager then
     -- before switch project
-    -- save current session based on settings
-    manager.autosave_session()
+    -- save current session
+    manager.save_current_session()
+    -- vim.notify("autosave_session before " .. project_path)
   end
-  local cd_successful = project.set_pwd(project_path, "telescope")
-  if has_session_manager and cd_successful then
-    manager.load_current_dir_session(false)
-  end
-  return project_path, cd_successful
+  project.set_pwd(project_path, "telescope")
 end
 
 local function delete_project(prompt_bufnr)

@@ -175,7 +175,6 @@ function M.set_pwd(dir, method)
     if M.last_project ~= dir then
       table.insert(history.session_projects, dir)
     end
-    M.last_project = dir
 
     if vim.fn.getcwd() ~= dir then
       local scope_chdir = config.options.scope_chdir
@@ -192,7 +191,15 @@ function M.set_pwd(dir, method)
       if config.options.silent_chdir == false then
         vim.notify("Set CWD to " .. dir .. " using " .. method)
       end
+
+      if has_session_manager then
+        if method == "telescope" or not M.last_project then
+          manager.load_current_dir_session(false)
+        end
+      end
     end
+
+    M.last_project = dir
     return true
   end
 
@@ -255,10 +262,6 @@ end
 function M.add_project_manually()
   local current_dir = vim.fn.expand("%:p:h", true)
   M.set_pwd(current_dir, "manual")
-  if has_session_manager then
-    -- save current session
-    manager.autosave_session()
-  end
 end
 
 function M.init()
