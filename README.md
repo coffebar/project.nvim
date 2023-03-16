@@ -4,7 +4,9 @@ This is a fork of
 **project.nvim** neovim plugin written in lua that provides
 superior project management.
 
-![Telescope Integration](https://user-images.githubusercontent.com/36672196/129409509-62340f10-4dd0-4c1a-9252-8bfedf2a9945.png)
+
+https://user-images.githubusercontent.com/3100053/225754164-b4141431-29fd-4587-9c2f-f9fc531a6986.mp4
+
 
 ## Fork difference and reason
 
