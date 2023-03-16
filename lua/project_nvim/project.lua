@@ -172,7 +172,7 @@ end
 
 function M.set_pwd(dir, method)
   if dir ~= nil then
-    if M.last_project ~= dir then
+    if M.last_project ~= dir and (M.last_project == nil or method == "telescope" or method == "manual") then
       table.insert(history.session_projects, dir)
     end
 
