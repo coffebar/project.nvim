@@ -35,21 +35,6 @@ More dependencies for a better overall user experience.
 
 Install the plugin with your preferred package manager:
 
-### [vim-plug](https://github.com/junegunn/vim-plug)
-
-```vim
-" Vim Script
-Plug "coffebar/project.nvim"
-
-lua << EOF
-  require("project_nvim").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-  }
-EOF
-```
-
 ### [packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
@@ -72,6 +57,29 @@ use {
 require('telescope').load_extension('projects')
 ```
 
+#### Recommended settings for Session Manager
+
+```lua
+local Autoload = require("session_manager.config").AutoloadMode
+local mode = Autoload.LastSession
+local project_root, _ = require("project_nvim.project").get_project_root()
+if project_root ~= nil then
+	mode = Autoload.CurrentDir
+end
+
+session_manager.setup({
+	autoload_mode = mode, -- Define what to do when Neovim is started without arguments.
+	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
+	autosave_ignore_not_normal = false, -- keep it false
+	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
+		"ccc-ui",
+		"gitcommit",
+		"qf",
+	},
+	autosave_only_in_session = true, -- Always autosaves session. If true, only autosaves after a session is active.
+})
+```
+
 ## Commands
 
 Plugin will add these commands:
@@ -85,7 +93,7 @@ Plugin will add these commands:
 **project.nvim** comes with the following defaults:
 
 ```lua
-{
+require("project_nvim").setup({
   -- Manual mode doesn't automatically change your root directory, so you have
   -- the option to manually do so using `:ProjectRoot` command.
   manual_mode = false,
@@ -142,7 +150,7 @@ Plugin will add these commands:
   -- telescope
   datapath = vim.fn.stdpath("data"),
 
-}
+})
 ```
 
 Even if you are pleased with the defaults, please note that `setup {}` must be
