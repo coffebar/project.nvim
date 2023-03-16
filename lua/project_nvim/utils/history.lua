@@ -65,6 +65,11 @@ function M.delete_project(project)
       M.recent_projects[k] = nil
     end
   end
+  for k, v in pairs(M.session_projects) do
+    if v == project.value then
+      M.session_projects[k] = nil
+    end
+  end
 end
 
 local function deserialize_history(history_data)

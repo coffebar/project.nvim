@@ -172,8 +172,10 @@ end
 
 function M.set_pwd(dir, method)
   if dir ~= nil then
+    if M.last_project ~= dir then
+      table.insert(history.session_projects, dir)
+    end
     M.last_project = dir
-    table.insert(history.session_projects, dir)
 
     if vim.fn.getcwd() ~= dir then
       local scope_chdir = config.options.scope_chdir
