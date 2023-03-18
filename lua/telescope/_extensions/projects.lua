@@ -6,6 +6,7 @@ if not has_telescope then
   return
 end
 
+local Path = require("plenary.path")
 local has_session_manager, manager = pcall(require, "session_manager")
 local finders = require("telescope.finders")
 local pickers = require("telescope.pickers")
@@ -17,6 +18,10 @@ local entry_display = require("telescope.pickers.entry_display")
 local history = require("project_nvim.utils.history")
 local project = require("project_nvim.project")
 
+local utils
+if has_session_manager then
+  utils = require("session_manager.utils")
+end
 ----------
 -- Actions
 ----------
@@ -83,6 +88,18 @@ local function change_working_directory(prompt_bufnr)
   project.set_pwd(project_path, "telescope")
 end
 
+local function delete_session(path)
+  -- Delete a session from the session manager storage
+  if has_session_manager then
+    local sessions = utils.get_sessions()
+    for idx, session in ipairs(sessions) do
+      if session.dir.filename == path then
+        return Path:new(sessions[idx].filename):rm()
+      end
+    end
+  end
+end
+
 local function delete_project(prompt_bufnr)
   local selectedEntry = state.get_selected_entry()
   if selectedEntry == nil then
@@ -93,6 +110,7 @@ local function delete_project(prompt_bufnr)
 
   if choice == 1 then
     history.delete_project(selectedEntry)
+    delete_session(selectedEntry.value)
 
     local finder = create_finder()
     state.get_current_picker(prompt_bufnr):refresh(finder, {
