@@ -37,6 +37,11 @@ function M.find_pattern_root()
     search_dir = search_dir:gsub("\\", "/")
   end
 
+  if search_dir:match("^fugitive:///") then
+    --- opening the fugitive buffer is not changing project root
+    return nil
+  end
+
   local last_dir_cache = ""
   local curr_dir_cache = {}
 
