@@ -197,7 +197,7 @@ function M.set_pwd(dir, method)
         vim.notify("Set CWD to " .. dir .. " using " .. method)
       end
 
-      if has_session_manager then
+      if has_session_manager and config.options.session_autoload then
         if method == "telescope" or not M.last_project then
           manager.load_current_dir_session(false)
         end

@@ -57,6 +57,9 @@ M.defaults = {
   -- Path where project.nvim will store the project history for use in
   -- telescope
   datapath = vim.fn.stdpath("data"),
+
+  -- possibility to disable session autoload
+  session_autoload = true,
 }
 
 ---@type ProjectOptions
