@@ -37,7 +37,7 @@ function M.find_pattern_root()
     search_dir = search_dir:gsub("\\", "/")
   end
 
-  if search_dir:match("^fugitive:///") then
+  if search_dir:match("^fugitive:///") or search_dir:match("^gitsigns://") then
     --- opening the fugitive buffer is not changing project root
     return nil
   end
