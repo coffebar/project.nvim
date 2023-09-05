@@ -153,6 +153,20 @@ local on_attach_lsp = function(client, bufnr)
   M.on_buf_enter() -- Recalculate root dir after lsp attaches
 end
 
+local function get_parent_project(dir)
+  for _, v in pairs(history.session_projects) do
+    if v ~= dir and vim.startswith(dir, v) then
+      return v
+    end
+  end
+  for _, v in pairs(history.recent_projects) do
+    if v ~= dir and vim.startswith(dir, v) then
+      return v
+    end
+  end
+  return dir
+end
+
 function M.attach_to_lsp()
   if M.attached_lsp then
     return
@@ -177,6 +191,14 @@ end
 
 function M.set_pwd(dir, method)
   if dir ~= nil then
+    if config.options.ignore_child_projects then
+      local parent_project = get_parent_project(dir)
+      if dir ~= parent_project then
+        dir = get_parent_project(dir)
+        method = "jump_parent"
+      end
+    end
+
     if M.last_project ~= dir and (M.last_project == nil or method == "telescope" or method == "manual") then
       table.insert(history.session_projects, dir)
     end

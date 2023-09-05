@@ -32,6 +32,7 @@ More dependencies for a better overall user experience.
     file on startup.
 - Neovim Session Manager integration to store sessions
   - Install Neovim Session Manager and `:Telescope projects` command will navigate you to chosen project's directory and your previously opened buffers will be restored.
+- You can disable CWD (current working directory) jumping between subdirectories. Only the upper root directory (saved in your project list) will stay your project root.
 
 ## 📦 Installation
 
@@ -151,6 +152,10 @@ require("project_nvim").setup({
   -- Path where project.nvim will store the project history for use in
   -- telescope
   datapath = vim.fn.stdpath("data"),
+
+  -- Set to true if you don't want to nesting projects.
+  -- Useful when you have patterned-files in sub-folders
+  ignore_child_projects = false,
 
 })
 ```

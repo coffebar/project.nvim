@@ -60,6 +60,10 @@ M.defaults = {
 
   -- possibility to disable session autoload
   session_autoload = true,
+
+  -- Set to true if you don't want to nesting projects.
+  -- Useful when you have patterned-files in sub-folders
+  ignore_child_projects = false,
 }
 
 ---@type ProjectOptions
