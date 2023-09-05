@@ -154,14 +154,18 @@ local on_attach_lsp = function(client, bufnr)
 end
 
 local function get_parent_project(dir)
-  for _, v in pairs(history.session_projects) do
-    if v ~= dir and vim.startswith(dir, v) then
-      return v
+  if history.session_projects ~= nil then
+    for _, v in pairs(history.session_projects) do
+      if v ~= dir and vim.startswith(dir, v) then
+        return v
+      end
     end
   end
-  for _, v in pairs(history.recent_projects) do
-    if v ~= dir and vim.startswith(dir, v) then
-      return v
+  if history.recent_projects ~= nil then
+    for _, v in pairs(history.recent_projects) do
+      if v ~= dir and vim.startswith(dir, v) then
+        return v
+      end
     end
   end
   return dir
