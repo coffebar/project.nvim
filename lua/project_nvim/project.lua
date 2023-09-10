@@ -193,6 +193,17 @@ function M.attach_to_lsp()
   M.attached_lsp = true
 end
 
+local function session_exists(dir)
+  local sm_utils = require("session_manager.utils")
+  local sessions = sm_utils.get_sessions()
+  for _, session in ipairs(sessions) do
+    if session.dir.filename == dir then
+      return true
+    end
+  end
+  return false
+end
+
 function M.set_pwd(dir, method)
   if dir ~= nil then
     if config.options.ignore_child_projects then
@@ -225,6 +236,14 @@ function M.set_pwd(dir, method)
 
       if has_session_manager and config.options.session_autoload then
         if method == "telescope" or not M.last_project then
+          if not session_exists(dir) then
+            -- session does not exist
+            -- close all buffers
+            -- not to mix with the previous session
+            vim.cmd("silent! %bd")
+          end
+
+          -- load session
           manager.load_current_dir_session(false)
         end
       end
