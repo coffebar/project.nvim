@@ -134,6 +134,8 @@ require("project_nvim").setup({
     "~/.cache/*",
     "~/.cargo/*",
     "~/.node_modules/*",
+    "~/.pnpm-store/*",
+    "~/.local/share/pnpm/*",
   },
 
   -- Show hidden files in telescope
