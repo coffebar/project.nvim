@@ -218,7 +218,7 @@ function M.set_pwd(dir, method)
       table.insert(history.session_projects, dir)
     end
 
-    if vim.fn.getcwd() ~= dir then
+    if vim.loop.cwd() ~= dir then
       local scope_chdir = config.options.scope_chdir
       if scope_chdir == "global" then
         vim.api.nvim_set_current_dir(dir)
