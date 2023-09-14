@@ -231,6 +231,22 @@ function M.set_pwd(dir, method)
       end
 
       if config.options.silent_chdir == false then
+        local cwd = vim.loop.cwd()
+        if cwd ~= dir then
+          vim.notify(
+            "Failed to set CWD to "
+              .. dir
+              .. " using "
+              .. method
+              .. " on scope "
+              .. scope_chdir
+              .. " (cwd: "
+              .. cwd
+              .. ")",
+            vim.log.levels.WARN
+          )
+          return false
+        end
         vim.notify("Set CWD to " .. dir .. " using " .. method)
       end
 
