@@ -80,12 +80,19 @@ local function change_working_directory(prompt_bufnr)
     )
   end
   if has_session_manager then
-    -- before switch project
+    vim.api.nvim_create_autocmd({ "User" }, {
+      pattern = "SessionSavePost",
+      callback = function()
+        -- switch project
+        -- after session saved
+        project.set_pwd(project_path, "telescope")
+      end,
+      once = true,
+    })
     -- save current session
+    -- before switch project
     manager.save_current_session()
-    -- vim.notify("autosave_session before " .. project_path)
   end
-  project.set_pwd(project_path, "telescope")
 end
 
 local function delete_session(path)
