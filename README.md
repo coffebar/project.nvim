@@ -4,6 +4,15 @@ This is a fork of
 **project.nvim** neovim plugin written in lua that provides
 superior project management.
 
+---
+
+❌
+
+## !!! This project is no longer supported in favor of [Neovim project](https://github.com/coffebar/neovim-project) !!!
+
+New [Neovim project](https://github.com/coffebar/neovim-project) has a similar interface and solves the same problem in a more declarative way. Please switch to it!
+
+---
 
 https://user-images.githubusercontent.com/3100053/225754164-b4141431-29fd-4587-9c2f-f9fc531a6986.mp4
 
